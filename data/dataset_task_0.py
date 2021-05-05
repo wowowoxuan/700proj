@@ -30,6 +30,6 @@ class Dataset_copy(data.Dataset):
         "Generates one sample of data"
         data_idx = self.list_data[index]
         x = torch.FloatTensor(data_idx)
-        y = torch.LongTensor(data_idx)
+        y = torch.FloatTensor(data_idx)
 
         return x, y

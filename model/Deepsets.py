@@ -34,7 +34,7 @@ class PermEqui_mean(nn.Module):
     return x
 
 class Deepset(nn.Module):
-  def __init__(self, perm_layer_type = 'max', fg = False, d_dim, x_dim=26):
+  def __init__(self, perm_layer_type = 'max', fg = False, d_dim = 256, x_dim=26):
     super(Deepset, self).__init__()
     self.d_dim = d_dim
     self.x_dim = x_dim
@@ -61,8 +61,8 @@ class Deepset(nn.Module):
     
 
   def forward(self, x):
-    x = self.perm_layer_type(x)
-    if fg:
+    x = self.perm(x)
+    if self.fg:
       x = self.transpose(1,2)
       x = self.down_samplingpool(x)
       x = self.transpose(1,2)
