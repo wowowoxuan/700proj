@@ -45,20 +45,30 @@ class Deepset(nn.Module):
         PermEqui_max(self.x_dim, self.d_dim),
         nn.Tanh(),
         PermEqui_max(self.d_dim, self.d_dim), 
-        nn.Tanh(),
-        PermEqui_max(self.d_dim, self.x_dim)    
+        nn.Tanh(),    
       )
+      self.lastlayer = PermEqui_max(self.d_dim, self.x_dim)
     else:
       self.perm = nn.Sequential(
         PermEqui_mean(self.x_dim, self.d_dim),
         nn.Tanh(),
         PermEqui_mean(self.d_dim, self.d_dim),  
-        nn.Tanh(),
-        PermEqui_mean(self.d_dim, self.x_dim)   
+        nn.Tanh(),  
       )
+      self.lastlayer = PermEqui_mean(self.d_dim, self.x_dim) 
+
+    self.down_samplingpool = nn.MaxPool1d(2,stride = 2)
+    
 
   def forward(self, x):
     x = self.perm_layer_type(x)
+    if fg:
+      x = self.transpose(1,2)
+      x = self.down_samplingpool(x)
+      x = self.transpose(1,2)
+    x = self.lastlayer(x)
+    
+
 
     return x
 
