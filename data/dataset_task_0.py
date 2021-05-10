@@ -2,7 +2,7 @@ import os
 import numpy as np
 import torch
 from torch.utils import data
-
+np.load.__defaults__=(None, True, True, 'ASCII')
 
 
 
@@ -20,8 +20,8 @@ class Dataset_copy(data.Dataset):
         return len(self.list_data)
 
     def load_file(self):
-        np_load_old = np.load
-        np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+        # np_load_old = np.load
+        # np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
         np_data = np.load(self.path)
         list_data = np_data.tolist()
         return list_data
@@ -32,4 +32,4 @@ class Dataset_copy(data.Dataset):
         x = torch.FloatTensor(data_idx)
         y = torch.FloatTensor(data_idx)
 
-        return x, y
+        return x,y
